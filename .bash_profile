@@ -102,7 +102,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-export PATH=$PATH:/opt/apache-maven-3.0.3/bin/
+export PATH=${PATH}:${HOME}/bin
 
 COLOR_RED=$(tput setaf 1)
 COLOR_GREEN=$(tput setaf 2)
@@ -156,4 +156,4 @@ function fancy_prompt() {
 }
 
 PROMPT_COMMAND="fancy_prompt"
-man $(ls /usr/bin | shuf -n 1)| sed -n "/^NAME/ { n;p;q }"
+uname -s |grep Darwin -q || man $(ls /usr/bin | shuf -n 1)| sed -n "/^NAME/ { n;p;q }"
