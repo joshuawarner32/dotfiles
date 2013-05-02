@@ -104,56 +104,6 @@ fi
 
 export PATH=${PATH}:${HOME}/bin
 
-COLOR_RED=$(tput setaf 1)
-COLOR_GREEN=$(tput setaf 2)
-COLOR_YELLOW=$(tput setaf 3)
-COLOR_BLUE=$(tput setaf 4)
-COLOR_PURPLE=$(tput setaf 5)
-COLOR_TEAL=$(tput setaf 6)
-COLOR_WHITE=$(tput setaf 7)
-COLOR_BOLD=$(tput bold)
-COLOR_UNDERLINE=$(tput smul)
-COLOR_RESET=$(tput sgr0)
+export EDITOR=emacs
 
-function color_dir() {
-    local DIR=${PWD/#$HOME/~}
-    local pwd_length=20
-    
-    if [[ $(echo -n $DIR | wc -c | tr -d " ") -gt ${pwd_length} ]]; then
-        echo -n "..."
-        DIR=$(echo -n ${DIR} | sed -e "s/.*\(.\{$pwd_length\}\)/\1/")
-    fi
-
-    local begin="\\\[${COLOR_BOLD}${COLOR_BLUE}${b}\\\]"
-    local end="\\\[${COLOR_RESET}${COLOR_TEAL}\\\]"
-    echo -n "\[${COLOR_TEAL}\]"
-    echo -n $(echo $DIR | sed -e "s|/|${begin}/${end}|g")
-    echo -n "\[${COLOR_RESET}\]"
-}
-
-function timer_start() {
-    CMD_TIME=${CMD_TIME:-${SECONDS}}
-}
-
-function timer_stop() {
-    LAST_CMD_TIME=$(($SECONDS - $CMD_TIME))
-    unset CMD_TIME
-}
-
-trap 'timer_start' DEBUG
-
-function fancy_prompt() {
-    local RETVAL=$?
-    timer_stop
-    if [[ ${RETVAL} -ne 0 ]]; then
-        echo -e "<${COLOR_RED}failed${COLOR_RESET}:${COLOR_YELLOW}${RETVAL}${COLOR_RESET}>"
-    fi
-    if [[ ${LAST_CMD_TIME} -gt 4 ]]; then
-        echo -e "<${COLOR_PURPLE}time${COLOR_RESET}:${COLOR_YELLOW}${LAST_CMD_TIME}s${COLOR_RESET}>"
-    fi
-    export PS1="\[${COLOR_UNDERLINE}\]\h\[${COLOR_RESET}\]:$(color_dir)$ "
-    history -a
-}
-
-PROMPT_COMMAND="fancy_prompt"
-uname -s |grep Darwin -q || man $(ls /usr/bin | shuf -n 1)| sed -n "/^NAME/ { n;p;q }"
+source ~/liquidprompt
