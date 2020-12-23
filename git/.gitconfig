@@ -1,0 +1,15 @@
+[core]
+	editor = micro
+[user]
+	name = Joshua Warner
+	email = joshuawarner32@gmail.com
+
+[alias]
+	s = status
+	co = checkout
+	b = branch
+	cp = cherry-pick
+	cl = clone
+	a = add
+	c = commit
+	d = diff
